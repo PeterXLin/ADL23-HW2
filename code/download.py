@@ -9,3 +9,7 @@ import gdown
 # download data
 url = "https://drive.google.com/drive/folders/1cp_TCxIZS1hxzr4_2XzdYSpJWzW0Eqrg"
 gdown.download_folder(url, quiet=True, use_cookies=False)
+
+# download data
+url = "https://drive.google.com/drive/folders/1I0Inj1HMUVGbi_S7oqITFZCyR7PKwXec"
+gdown.download_folder(url, quiet=True, use_cookies=False)
