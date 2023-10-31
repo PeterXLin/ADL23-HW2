@@ -32,7 +32,7 @@ for learning rate 3e-4, train 5 epoch is enough
     - Greedy
         - 每次decode時就直接選機率最高的字
     - Beam Search
-        - 生成時不是只選當前機率最高的word，而是會同時紀錄K條sequence(每次選機率最高的K個word)。比起greedy strategies來說，比較有考慮global的狀況)
+        - 生成時不是只選當前機率最高的word，而是會同時紀錄K條sequence(每次選機率最高的K個word)。比起greedy strategies來說，比較有考慮global的狀況
     - Top-k Sampling
         - 在decode時，選擇ramdomly sample the word via the probability distribution，但是只從機率最高的k個word中sample(避免long tail distribution的問題)
     - Top-p Sampling

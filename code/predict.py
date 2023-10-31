@@ -18,7 +18,7 @@ from transformers import (
 
 import pandas as pd
 
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Finetune a transformers model on a multiple choice task")
@@ -73,7 +73,7 @@ def parse_args():
     )
     parser.add_argument(
         "--temperature",
-        type=int,
+        type=float,
         default = 1,
         help="modify temperature to controll generation diversity",
     )
@@ -99,7 +99,7 @@ def get_generate_kwargs(strategy):
 
         },
         "beam_search": {
-            "num_beams": 5,
+            "num_beams": 10,
             "early_stopping": True,
             "no_repeat_ngram_size": 2
         },
@@ -116,11 +116,11 @@ def get_generate_kwargs(strategy):
         },
         "top_k_sampling": {
             "do_sample": True,
-            "top_k": 50,
+            "top_k": 5,
         },
         "top_p_sampling": {
             "do_sample": True,
-            "top_p": 0.92,
+            "top_p": 0.8,
             "top_k": 0
         }
     }
@@ -133,6 +133,8 @@ def summarize(args):
     else:
         model_path = "/nfs/nas-6.1/whlin/ADL/ADL23-HW2/checkpoint/google_mt5_small_3e-4/checkpoint-23202"
 
+    print("max source length: ", args.max_source_length)
+    print("max target length: ", args.max_target_length)
     print("summary_model_path: ", model_path)
     # -------------------------- prepare dataset
 
@@ -223,8 +225,8 @@ def summarize(args):
             decoded_preds= postprocess_text(decoded_preds)
             all_prediction.extend(decoded_preds)
 
-    df = pd.DataFrame(list(zip(raw_datasets['test']['id'], all_prediction)),
-               columns =['id', 'title'])
+    df = pd.DataFrame(list(zip(all_prediction, raw_datasets['test']['id'])),
+               columns =['title', 'id'])
     
     punctuation_mapping = {
         ord('.'): '。',
@@ -260,6 +262,7 @@ def summarize(args):
     }
 
     df['title'] = df.apply(lambda x: x['title'].translate(punctuation_mapping), axis = 1)
+    df['title'] = df.apply(lambda x: x['title'].replace("\n", ""), axis = 1)
 
     return df
 
