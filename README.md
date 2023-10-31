@@ -2,17 +2,25 @@
 Dataset & evaluation script for ADL 2023 homework 2
 
 ## Dataset
-[download link](https://drive.google.com/file/d/186ejZVADY16RBfVjzcMcz9bal9L3inXC/view?usp=sharing)
-
-## Installation
+download datast by running this script
 ```
-git clone https://github.com/moooooser999/ADL23-HW2.git
-cd ADL23-HW2
-pip install -e tw_rouge
+bash ./download.sh
 ```
-
 
 ## Usage
+
+### Inference
+```shell
+bash ./run.sh ./data/public.jsonl ./data/predict.jsonl
+```
+
+### eval
+```shell
+cd tw_rouge/
+python eval.py -r ../data/public.jsonl -s ../data/predict.jsonl
+```
+
+
 ### Use the Script
 ```
 usage: eval.py [-h] [-r REFERENCE] [-s SUBMISSION]
@@ -60,3 +68,6 @@ python eval.py -r public.jsonl -s submission.jsonl
 
 ## Reference
 [cccntu/tw_rouge](https://github.com/cccntu/tw_rouge)
+
+
+[Seq2SeqTrainingArguments](https://huggingface.co/docs/transformers/main_classes/trainer#transformers.Seq2SeqTrainingArguments)
